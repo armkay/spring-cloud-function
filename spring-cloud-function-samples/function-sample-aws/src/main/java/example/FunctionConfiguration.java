@@ -1,6 +1,9 @@
 package example;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import example.service.OrderService;
 import example.service.OrderServiceAbstract;
@@ -24,7 +27,7 @@ public class FunctionConfiguration {
 	}
 
 	@Bean
-	public Function<String, Object> uppercase() {
+	public Function<String, Object> getOrderByType() {
 		return value -> {
 			if (value.equals("exception")) {
 				throw new RuntimeException("Intentional exception which should result in HTTP 417");
@@ -32,6 +35,13 @@ public class FunctionConfiguration {
 			else {
 				return orderDao.getOrderByOrderType(value);
 			}
+		};
+	}
+
+	@Bean
+	public Supplier<List<Object>> getAllOrders() {
+		return () -> {
+				return Collections.singletonList(orderDao.getAllOrders());
 		};
 	}
 }

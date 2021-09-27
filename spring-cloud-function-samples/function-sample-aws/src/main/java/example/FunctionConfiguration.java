@@ -2,12 +2,16 @@ package example;
 
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class FunctionConfiguration {
 
+
+	@Autowired
+	public OrderDao orderDao;
 	/*
 	 * You need this main method (empty) or explicit <start-class>example.FunctionConfiguration</start-class>
 	 * in the POM to ensure boot plug-in makes the correct entry
@@ -24,7 +28,7 @@ public class FunctionConfiguration {
 				throw new RuntimeException("Intentional exception which should result in HTTP 417");
 			}
 			else {
-				return value.toUpperCase();
+				return orderDao.toUpperCase(value);
 			}
 		};
 	}

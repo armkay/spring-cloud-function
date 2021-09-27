@@ -2,6 +2,8 @@ package example;
 
 import java.util.function.Function;
 
+import example.service.OrderService;
+import example.service.OrderServiceAbstract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +13,7 @@ public class FunctionConfiguration {
 
 
 	@Autowired
-	public OrderDao orderDao;
+	public OrderServiceAbstract orderDao;
 	/*
 	 * You need this main method (empty) or explicit <start-class>example.FunctionConfiguration</start-class>
 	 * in the POM to ensure boot plug-in makes the correct entry
@@ -22,13 +24,13 @@ public class FunctionConfiguration {
 	}
 
 	@Bean
-	public Function<String, String> uppercase() {
+	public Function<String, Object> uppercase() {
 		return value -> {
 			if (value.equals("exception")) {
 				throw new RuntimeException("Intentional exception which should result in HTTP 417");
 			}
 			else {
-				return orderDao.toUpperCase(value);
+				return orderDao.getOrderByOrderType(value);
 			}
 		};
 	}
